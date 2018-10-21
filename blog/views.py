@@ -88,7 +88,6 @@ def profile(username):
         similar = user1.similar_users(3)
     else:
         common = user1.commonality_of_user(user2)
-        print common
 
     return render_template("profile.html", username=username, posts=posts, similar=similar, common=common)
 

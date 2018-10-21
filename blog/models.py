@@ -54,7 +54,6 @@ class User:
         graph.create(Relationship(post, "ON", today_node))
 
         tags = [x.strip() for x in tags.lower().split(",")]
-        print tags
         tags = set(tags)
         for tag in tags:
             t = Node("Tag", name=tag)
@@ -105,7 +104,6 @@ class User:
         """
 
         tags = graph.evaluate(query2, username1=self.username, username2=user.username)
-        print tags
         return {"likes": likes, "tags": tags}
 
 
