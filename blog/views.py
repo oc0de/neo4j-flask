@@ -1,5 +1,5 @@
 from flask import Flask, request, session, redirect, url_for, render_template, flash
-from models import User, todays_recent_posts
+from .models import User, todays_recent_posts
 
 
 app = Flask(__name__)
