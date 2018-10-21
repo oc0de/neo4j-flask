@@ -69,26 +69,35 @@ class User:
         return graph.run(query, username=self.username, n=n)
 
     def similar_users(self, n):
-        pass
+        query = """
+        MATCH (user1:User)-[:PUBLISHED]->(:Post)<-[:TAGGED]-(tag:Tag),
+              (user2:User)-[:PUBLISHED]->(:Post)<-[:TAGGED]-(tag)
+        WHERE user1.username = {username} AND user1 <> user2
+        WITH user2, COLLECT(DISTINCT tag.name) as tags, count(distinct tag.name) as tag_count
+        ORDER BY tag_count DESC LIMIT {n}
+        return user2.username as similar_user, tags    
+        """
+        return graph.run(query, username=self.username, n=n)
 
     def commonality_of_user(self, user):
         query1 = """
         MATCH (user1:User)-[:PUBLISHED]->(post:Post)<-[:LIKES]-(user2:User)
-        WHERE user1.username = {username1} AND user2.username = {username2} 
-        RETURN COUNT(post) AS likes  
+        WHERE user1.username = {username1} AND user2.username = {username2}
+        RETURN COUNT(post) AS likes
         """
 
-        likes = graph.run(query1, username1=self.username, username2=user.username)
+        likes = graph.evaluate(query1, username1=self.username, username2=user.username)
         likes = 0 if not likes else likes
 
         query2 = """
         MATCH (user1:User)-[:PUBLISHED]->(:Post)<-[:TAGGED]-(tag:Tag),
-              (user2:User)-[:PUBLISHED]->(:Post)<-[:TAGGED]-(tag),
-        WHERE user1.username = {username} AND user2.username = {username2}
-        RETURN COLLECT(DISTINCT tag) AS tags
+              (user2:User)-[:PUBLISHED]->(:Post)<-[:TAGGED]-(tag)
+        WHERE user1.username = {username1} AND user2.username = {username2}
+        RETURN COLLECT(DISTINCT tag.name) AS tags
         """
 
-        tags = graph.run(query2, username1=self.username, username2=user.username)[0]["tags"]
+        tags = graph.evaluate(query2, username1=self.username, username2=user.username)
+        print tags
         return {"likes": likes, "tags": tags}
 
 

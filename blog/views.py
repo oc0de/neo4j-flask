@@ -80,11 +80,17 @@ def profile(username):
     user1 = User(session.get("username"))
     user2 = User(username)
     posts = user2.recent_posts(5)
+
     similar = []
+    common = {}
 
     if user1.username == user2.username:
         similar = user1.similar_users(3)
-    return render_template("profile.html", username=username, posts=posts, similar=similar)
+    else:
+        common = user1.commonality_of_user(user2)
+        print common
+
+    return render_template("profile.html", username=username, posts=posts, similar=similar, common=common)
 
 
 @app.route("/logout")
