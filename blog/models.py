@@ -2,9 +2,11 @@ from py2neo import Graph, Node
 from py2neo import Relationship
 from passlib.hash import bcrypt
 from datetime import datetime
+from py2neo.ext.calendar import GregorianCalendar
 import uuid
 
 graph = Graph()
+calendar = GregorianCalendar(graph)
 
 
 class User:
@@ -32,18 +34,21 @@ class User:
 
     def add_post(self, title, tags, text):
         user = self.find()
+        today = datetime.now()
 
         post = Node(
             "Post",
             id=str(uuid.uuid4()),
             title=title,
             text=text,
-            timestamp=int(datetime.now().strftime("%s")),
-            date=datetime.now().strftime("%F"),
+            timestamp=int(today.strftime("%s")),
+            date=today.strftime("%F"),
         )
 
-        rel = Relationship(user, "PUBLISHED", post)
-        graph.create(rel)
+        graph.create(Relationship(user, "PUBLISHED", post))
+
+        today_node = calendar.date(today.year, today.month, today.day).day
+        graph.create(Relationship(post, "ON", today_node))
 
         tags = [x.strip() for x in tags.lower().split(",")]
         print tags
