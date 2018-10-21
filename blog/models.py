@@ -2,14 +2,13 @@ from py2neo import Graph, Node
 from py2neo import Relationship
 from passlib.hash import bcrypt
 from datetime import datetime
-from py2neo.ext.calendar import GregorianCalendar
 import uuid
 import os
 
 url = os.environ.get("GRAPHENEDB_URL", "http://localhost:7474")
 
 graph = Graph(url + "/db/data/")
-calendar = GregorianCalendar(graph)
+# calendar = GregorianCalendar(graph)
 
 
 class User:
@@ -50,8 +49,8 @@ class User:
 
         graph.create(Relationship(user, "PUBLISHED", post))
 
-        today_node = calendar.date(today.year, today.month, today.day).day
-        graph.create(Relationship(post, "ON", today_node))
+        # today_node = calendar.date(today.year, today.month, today.day).day
+        # graph.create(Relationship(post, "ON", today_node))
 
         tags = [x.strip() for x in tags.lower().split(",")]
         tags = set(tags)
