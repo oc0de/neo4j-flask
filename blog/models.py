@@ -4,8 +4,11 @@ from passlib.hash import bcrypt
 from datetime import datetime
 from py2neo.ext.calendar import GregorianCalendar
 import uuid
+import os
 
-graph = Graph()
+url = os.environ.get("GRAPHENEDB_URL", "http://localhost:7474")
+
+graph = Graph(url + "/db/data/")
 calendar = GregorianCalendar(graph)
 
 
