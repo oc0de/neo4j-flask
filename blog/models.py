@@ -6,9 +6,9 @@ import uuid
 import os
 
 url = os.environ.get("GRAPHENEDB_URL", "http://localhost:7474")
-print url
+print (url)
 graph = Graph(url + "/db/data/")
-print graph
+print (url)
 # calendar = GregorianCalendar(graph)
 
 
