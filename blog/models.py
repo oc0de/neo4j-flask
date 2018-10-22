@@ -4,10 +4,15 @@ from passlib.hash import bcrypt
 from datetime import datetime
 import uuid
 import os
+from py2neo.addressing import authenticate
+from urlparse import urlparse, urlunparse
 
-url = os.environ.get("GRAPHENEDB_URL", "http://localhost:7474")
 
-graph = Graph(url + "/db/data")
+url = urlparse(os.environ.get("GRAPHENEDB_URL"))
+url_without_auth = urlunparse((url.scheme, "{0}:{1}".format(url.hostname, url.port), '', None, None, None))
+authenticate(url_without_auth, url.username, url.password)
+graph = Graph(url_without_auth, bolt=False)
+# graph = Graph(url + "/db/data")
 # calendar = GregorianCalendar(graph)
 
 
