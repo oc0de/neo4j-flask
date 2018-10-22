@@ -3,23 +3,23 @@ from passlib.hash import bcrypt
 from datetime import datetime
 import uuid
 import os
-from urllib.parse import urlparse, urlunparse
+# from urllib.parse import urlparse, urlunparse
 from py2neo.addressing import authenticate
 # from py2neo.ext.calendar import GregorianCalendar
 
 
-# url = os.environ.get("GRAPHENEDB_URL", "http://localhost:7474")
-# graph = Graph(url + "/db/data/")
+url = os.environ.get("GRAPHENEDB_URL", "http://localhost:7474")
+graph = Graph(url + "/db/data/")
 # calendar = GregorianCalendar(graph)
 
 
-url = urlparse(os.environ.get("GRAPHENEDB_URL", "http://localhost:7474"))
-url_without_auth = urlunparse((url.scheme, "{0}:{1}".format(url.hostname, url.port), '', None, None, None))
-user_1 = url.username
-password_1 = url.password
-
-authenticate(url_without_auth, user_1, password_1)
-graph = Graph(url_without_auth, bolt = False)
+# url = urlparse(os.environ.get("GRAPHENEDB_URL", "http://localhost:7474"))
+# url_without_auth = urlunparse((url.scheme, "{0}:{1}".format(url.hostname, url.port), '', None, None, None))
+# user_1 = url.username
+# password_1 = url.password
+#
+# authenticate(url_without_auth, user_1, password_1)
+# graph = Graph(url, bolt = False)
 
 
 class User:
