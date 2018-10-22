@@ -7,7 +7,7 @@ import os
 
 url = os.environ.get("GRAPHENEDB_URL", "http://localhost:7474")
 
-graph = Graph(url + "/db/data/")
+graph = Graph(url + "/db/data")
 # calendar = GregorianCalendar(graph)
 
 
