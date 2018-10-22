@@ -3,7 +3,7 @@ from passlib.hash import bcrypt
 from datetime import datetime
 import uuid
 import os
-from urlparse import urlparse, urlunparse
+from urllib.parse import urlparse, urlunparse
 from py2neo.addressing import authenticate
 # from py2neo.ext.calendar import GregorianCalendar
 
