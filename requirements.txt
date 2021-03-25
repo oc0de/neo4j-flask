@@ -27,7 +27,7 @@ py2neo==4.0.0b2
 pycparser==2.18
 pyOpenSSL==18.0.0
 PySocks==1.6.8
-PyYAML==3.13
+PyYAML==5.4
 semantic-version==2.5.0
 six==1.11.0
 termcolor==1.1.0
